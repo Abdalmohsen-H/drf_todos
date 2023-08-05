@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 from django.http import JsonResponse
@@ -24,13 +24,16 @@ class Todos_list_view(View):
         request_data = json.loads(request.body)
         my_title = request_data.get('title')
 
-        if type(my_title) != str:
-            return JsonResponse({'Error': "title must be of type string"}, status=400)
+        if isinstance(my_title, str) is False:
+            return JsonResponse({'Error': "title must be of type string"},
+                                status=400)
         elif len(my_title) == 0:
-            return JsonResponse({'Error': "title can't be empty string"}, status=400)
+            return JsonResponse({'Error': "title can't be empty string"},
+                                status=400)
         elif my_title:
             task = Task.objects.create(title=my_title)
-            return JsonResponse({'id': task.id, 'title': task.title}, status=201)
+            return JsonResponse({'id': task.id, 'title': task.title},
+                                status=201)
         else:
             return JsonResponse({'Error': "title is required"}, status=400)
 
@@ -49,14 +52,17 @@ class Todos_details_view(View):
         request_data = json.loads(request.body)
         my_title = request_data.get('title')
         task = get_object_or_404(Task, pk=pk)
-        if my_title and type(my_title) != str:
-            return JsonResponse({'Error': "title must be of type string"}, status=400)
+        if isinstance(my_title, str) is False:
+            return JsonResponse({'Error': "title must be of type string"},
+                                status=400)
         elif my_title and len(my_title) == 0:
-            return JsonResponse({'Error': "title can't be empty string"}, status=400)
+            return JsonResponse({'Error': "title can't be empty string"},
+                                status=400)
         elif my_title:
             task.title = my_title
             task.save()
-            return JsonResponse({'id': task.id, 'title': task.title}, status=200)
+            return JsonResponse({'id': task.id, 'title': task.title},
+                                status=200)
         else:
             return JsonResponse({'Error': "title is required"}, status=400)
 
@@ -64,4 +70,5 @@ class Todos_details_view(View):
         ''' Handle delete request to remove one todo by ID' '''
         task = get_object_or_404(Task, pk=pk)
         task.delete()
-        return JsonResponse({'message': 'Task has been deleted successfully.'}, status=204)
+        return JsonResponse({'message': 'Task deleted successfully.'},
+                            status=204)
