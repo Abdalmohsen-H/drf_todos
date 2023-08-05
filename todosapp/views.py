@@ -10,7 +10,7 @@ import json
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class Todos_list_view(View):
+class TodosListView(View):
     """class based view to handle list view of todos"""
 
     def get(self, request):
@@ -36,7 +36,7 @@ class Todos_list_view(View):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class Todos_details_view(View):
+class TodosDetailsView(View):
     """class based view to handle details view of on todo"""
 
     def get(self, request, pk):

@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from todosapp.views import Todos_list_view, Todos_details_view
+from todosapp.views import TodosListView, TodosDetailsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('todos/', Todos_list_view.as_view(), name='Todos_list_view'),
-    path('todos/<int:pk>/', Todos_details_view.as_view(), name='Todos_details_view')
+    path('todos/', TodosListView.as_view(), name='TodosListView'),
+    path('todos/<int:pk>/', TodosDetailsView.as_view(), name='TodosDetailsView')
 ]
