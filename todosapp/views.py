@@ -2,12 +2,14 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import JsonResponse
-from .models import Task
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .models import Task
 import json
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class Todos_list_view(View):
     ''' class based view to handle list view of todos '''
 
@@ -17,7 +19,6 @@ class Todos_list_view(View):
         tasksList = [{'id': task.id, 'title': task.title} for task in tasks]
         return JsonResponse(tasksList, safe=False, status=200)
 
-    @csrf_exempt
     def post(self, request):
         ''' Handle post request to add todo'''
         request_data = json.loads(request.body)
