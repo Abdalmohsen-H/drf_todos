@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from todosapp.views import Todos_list_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('todos/', Todos_list_view.as_view(), name='Todos_list_view')
 ]
