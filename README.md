@@ -1,2 +1,2 @@
-# django_todos
-Simple todo app API using django
+# django_todos_DRF
+Simple todo app API using django DRF
