@@ -1,16 +1,19 @@
-from django.shortcuts import get_object_or_404
+import json
 
 # Create your views here.
 from django.http import JsonResponse
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+
+# from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+
 from .models import Task
-import json
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class TodosListView(View):
+class TodosListView(APIView):
     """class based view to handle list view of todos"""
 
     def get(self, request):
@@ -36,7 +39,7 @@ class TodosListView(View):
 
 
 @method_decorator(csrf_exempt, name="dispatch")
-class TodosDetailsView(View):
+class TodosDetailsView(APIView):
     """class based view to handle details view of on todo"""
 
     def get(self, request, pk):
