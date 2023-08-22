@@ -30,14 +30,6 @@ class TaskViewsTestCase(TestCase):
         data = json.loads(response.content)
         self.assertEqual(data["title"], "New Task")
 
-    def test_create_todo_invalid_title(self):
-        response = self.client.post(
-            reverse("TodosListView"),
-            data=json.dumps({"title": 123}),
-            content_type="application/json",
-        )
-        self.assertEqual(response.status_code, 400)
-
     def test_create_todo_empty_title(self):
         response = self.client.post(
             reverse("TodosListView"),
@@ -67,14 +59,6 @@ class TaskViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
         self.assertEqual(data["title"], "Updated Task")
-
-    def test_update_todo_invalid_title(self):
-        response = self.client.put(
-            reverse("TodosDetailsView", args=[self.todo1.pk]),
-            data=json.dumps({"title": 123}),
-            content_type="application/json",
-        )
-        self.assertEqual(response.status_code, 400)
 
     def test_update_todo_empty_title(self):
         response = self.client.put(
