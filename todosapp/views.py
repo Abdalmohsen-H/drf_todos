@@ -1,18 +1,12 @@
-from rest_framework import generics
+from rest_framework import viewsets
 
 from .models import Task
 from .utils import TodosSerializer
 
 
-class TodosListView(generics.ListCreateAPIView):
-    """generic class based view to handle list view of todos"""
-
-    queryset = Task.objects.all()
-    serializer_class = TodosSerializer
-
-
-class TodosDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    """generic class based view to handle details view of one todo"""
+class TodosViewSet(viewsets.ModelViewSet):
+    """Viewset class to handle list, create,
+    retrieve, update, and delete actions for todos"""
 
     queryset = Task.objects.all()
     serializer_class = TodosSerializer
