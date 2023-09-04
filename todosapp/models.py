@@ -21,4 +21,6 @@ class Task(models.Model):
         return self.title
 
     class Meta:
-        ordering = ["created_at"]
+        # The hyphen "-" before created_at to order the queryset
+        # in descending order of the created_at field.
+        ordering = ["-created_at"]
