@@ -1,7 +1,7 @@
 from rest_framework import permissions, viewsets
 
 from .models import Task
-from .serializers import TodosSerializer
+from .serializers import TodoSerializer
 
 
 class TodosViewSet(viewsets.ModelViewSet):
@@ -10,7 +10,7 @@ class TodosViewSet(viewsets.ModelViewSet):
     and delete actions for todos"""
 
     queryset = Task.objects.all()
-    serializer_class = TodosSerializer
+    serializer_class = TodoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):

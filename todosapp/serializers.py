@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username"]
 
 
-class TodosSerializer(serializers.ModelSerializer):
+class TodoSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     updated_by = UserSerializer(read_only=True)
     # ReadOnly Field : will be included when serializing a Task, but won't be
