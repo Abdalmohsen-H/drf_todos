@@ -23,9 +23,17 @@ class TodoSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """set the created_by and updated_by fields when a
         new task is created."""
-        validated_data["owner"] = self.context["request"].user
-        validated_data["updated_by"] = self.context["request"].user
-        return super().create(validated_data)
+        # user must be user instance
+        user = self.context["request"].user
+
+        # Create a new Task instance with the owner and updated_by set to the current user
+        task = Task.objects.create(
+            owner=user,
+            updated_by=user,
+            **validated_data  # Any other validated data needed for Task creation
+        )
+
+        return task
 
     def update(self, instance, validated_data):
         """update the updated_by field only when an existing task
