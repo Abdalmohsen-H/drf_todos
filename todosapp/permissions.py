@@ -25,7 +25,7 @@ class IsOwnerOrAdminOrReadOnly(permissions.BasePermission):
             # if you want obj read-only access only for other signed-in users
             # return request.user.is_authenticated
 
-        if request.user.is_staff:  # ir request.user is an admin
+        if request.user.is_staff:  # if request.user is an admin
             return True  # allow everything for object without time restrictions
 
         # owner only have 7 days to edit but could delete any time
