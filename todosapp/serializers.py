@@ -39,6 +39,13 @@ class TodoSerializer(serializers.ModelSerializer):
         """update the updated_by field only when an existing task
         is updated.
         instance here is an instance of the Task model"""
+
+        # get values from request body, readonly fields will be neglected anyway
+        # unless assigned below this for loop like the updated_by field below
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        # Set 'updated_by' to the user making the request
         instance.updated_by = self.context["request"].user
 
         instance.save()

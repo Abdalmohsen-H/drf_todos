@@ -1,6 +1,7 @@
-from rest_framework import permissions, viewsets
+from rest_framework import viewsets
 
 from .models import Task
+from .permissions import IsOwnerOrAdminOrReadOnly
 from .serializers import TodoSerializer
 
 
@@ -11,4 +12,4 @@ class TodosViewSet(viewsets.ModelViewSet):
 
     queryset = Task.objects.all()
     serializer_class = TodoSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
