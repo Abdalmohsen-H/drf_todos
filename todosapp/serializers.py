@@ -7,7 +7,7 @@ from .models import Task
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username"]
+        fields = ["username"]
 
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -19,3 +19,34 @@ class TodoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ["id", "title", "created_at", "updated_at", "owner", "updated_by"]
+
+    def create(self, validated_data):
+        """set the created_by and updated_by fields when a
+        new task is created."""
+        # user must be user instance
+        user = self.context["request"].user
+
+        # Create a new Task instance with the owner and updated_by set to the current user
+        task = Task.objects.create(
+            owner=user,
+            updated_by=user,
+            **validated_data  # Any other validated data needed for Task creation
+        )
+
+        return task
+
+    def update(self, instance, validated_data):
+        """update the updated_by field only when an existing task
+        is updated.
+        instance here is an instance of the Task model"""
+
+        # get values from request body, readonly fields will be neglected anyway
+        # unless assigned below this for loop like the updated_by field below
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        # Set 'updated_by' to the user making the request
+        instance.updated_by = self.context["request"].user
+
+        instance.save()
+        return instance
